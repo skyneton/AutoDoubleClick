@@ -3,8 +3,10 @@
 #include "stdio.h"
 
 void printfScreen();
+void init();
 
 int main() {
+	init();
 	printfScreen();
 
 	bool macro = false;
@@ -30,4 +32,18 @@ void printfScreen() {
 	printf("F9: 매크로 정지\n");
 	printf("F8: 매크로 종료\n");
 	printf("\n");
+}
+
+void init() {
+	system("mode con cols=30 lines=6 | title Auto Double Click");
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO consoleCursor;
+	consoleCursor.bVisible = 0;
+	consoleCursor.dwSize = 1;
+	SetConsoleCursorInfo(consoleHandle, &consoleCursor);
+
+	DWORD prevMode = 0;
+	HANDLE handle = GetStdHandle(STD_INPUT_HANDLE);
+	GetConsoleMode(handle, &prevMode);
+	SetConsoleMode(handle, prevMode & ~ENABLE_QUICK_EDIT_MODE);
 }
