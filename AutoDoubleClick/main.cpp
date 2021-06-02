@@ -14,7 +14,7 @@ int main() {
 		InputManager::UpdateKeyState();
 
 		if (InputManager::GetKeyState(VK_F8)) break;
-		if (InputManager::GetKeyState(VK_F4)) { macro = !macro; printfScreen(true);  }
+		if (InputManager::GetKeyUp(VK_F4)) { macro = !macro; printfScreen(true);  }
 
 		if (macro) {
 			if (InputManager::GetKeyUp(VK_LBUTTON)) {
