@@ -1,6 +1,7 @@
 #include "InputManager.h"
 #include "Windows.h"
 #include "stdio.h"
+#include "thread"
 
 void printfScreen(bool);
 void init();
@@ -10,6 +11,7 @@ static bool macro = false;
 int main() {
 	init();
 	printfScreen(false);
+	std::chrono::milliseconds wait = std::chrono::milliseconds(1);
 	while (1) {
 		InputManager::UpdateKeyState();
 
@@ -22,6 +24,7 @@ int main() {
 				mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
 			}
 		}
+		std::this_thread::sleep_for(wait);
 	}
 }
 
