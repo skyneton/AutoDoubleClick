@@ -45,7 +45,7 @@ void printfScreen(bool state) {
 	puts("");
 
 	if (state) {
-		if(macro) puts("매크로가 시작되었습니다.");
+		if (macro) puts("매크로가 시작되었습니다.");
 		else puts("매크로가 정지되었습니다.");
 	}
 }
