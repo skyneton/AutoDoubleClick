@@ -7,6 +7,7 @@ void printfScreen(bool);
 void init();
 
 static bool macro = false;
+static bool autoclick = false;
 
 int main() {
 	init();
@@ -16,12 +17,18 @@ int main() {
 		InputManager::UpdateKeyState();
 
 		if (InputManager::GetKeyState(VK_F8)) break;
-		if (InputManager::GetKeyUp(VK_F4)) { macro = !macro; printfScreen(true);  }
+		if (InputManager::GetKeyUp(VK_F4)) { macro = !macro; printfScreen(true); }
+		if (InputManager::GetKeyUp(VK_F6)) { autoclick = !autoclick; printfScreen(true); }
+
+		if (autoclick) {
+			mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+		}
 
 		if (macro) {
-			if (InputManager::GetKeyUp(VK_LBUTTON)) {
-				mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-				mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+			if (InputManager::GetKeyUp(VK_RBUTTON)) {
+				mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+				mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
 			}
 		}
 		std::this_thread::sleep_for(wait);
@@ -30,14 +37,16 @@ int main() {
 
 void printfScreen(bool state) {
 	system("cls");
-	if (!macro) printf("F4: 매크로 실행\n");
-	else printf("F4: 매크로 중지\n");
-	printf("F8: 매크로 종료\n");
-	printf("\n");
+	if (!macro) puts("F4: 매크로 실행");
+	else puts("F4: 매크로 중지");
+	if (autoclick) puts("F6: 오토클릭 중지");
+	else puts("F6: 오토클릭 실행");
+	puts("F8: 매크로 종료");
+	puts("");
 
 	if (state) {
-		if(macro) printf("매크로가 시작되었습니다.\n");
-		else printf("매크로가 정지되었습니다.\n");
+		if(macro) puts("매크로가 시작되었습니다.");
+		else puts("매크로가 정지되었습니다.");
 	}
 }
 
